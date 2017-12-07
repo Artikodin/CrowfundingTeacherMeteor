@@ -4,6 +4,8 @@ import { render } from 'react-dom';
 
 import App from '../imports/ui/App.js';
 
+import 'antd/dist/antd.css';
+
 import '../imports/api/profiles.js';
 
 
