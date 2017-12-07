@@ -4,9 +4,9 @@ import { Meteor } from 'meteor/meteor';
 
 import { withTracker } from 'meteor/react-meteor-data';
 
-import { Tasks } from '../api/tasks.js';
+import { Profiles } from '../api/profiles.js';
 
-import Task from './Task.js';
+import Profile from './Profile.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 
 // App component - represents the whole app
@@ -26,7 +26,7 @@ class App extends Component {
     // Find the text field via the React ref
     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-    Tasks.insert({
+    Profiles.insert({
       text,
       createdAt: new Date(), // current time
       owner: Meteor.userId(),           // _id of logged in user
@@ -44,13 +44,13 @@ class App extends Component {
  }
 
 
-  renderTasks() {
-    let filteredTasks = this.props.tasks;
+  renderProfiles() {
+    let filteredProfiles = this.props.profiles;
         if (this.state.hideCompleted) {
-          filteredTasks = filteredTasks.filter(task => !task.checked);
+          filteredProfiles = filteredProfiles.filter(profile => !profile.checked);
         }
-        return filteredTasks.map((task) => (
-       <Task key={task._id} task={task} />
+        return filteredProfiles.map((profile) => (
+       <Profile key={profile._id} profile={profile} />
     ));
   }
 
@@ -67,17 +67,17 @@ class App extends Component {
               checked={this.state.hideCompleted}
               onClick={this.toggleHideCompleted.bind(this)}
             />
-            Hide Completed Tasks
+            Hide Completed Profiles
           </label>
 
           <AccountsUIWrapper />
 
           { this.props.currentUser ?
-           <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
+           <form className="new-profile" onSubmit={this.handleSubmit.bind(this)} >
              <input
                type="text"
                ref="textInput"
-               placeholder="Type to add new tasks"
+               placeholder="Type to add new profiles"
              />
            </form> : ''
          }
@@ -85,7 +85,7 @@ class App extends Component {
       </header>
 
       <ul>
-        {this.renderTasks()}
+        {this.renderProfiles()}
       </ul>
     </div>
   );
@@ -95,8 +95,8 @@ class App extends Component {
 
 export default withTracker(() => {
   return {
-  tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
-  incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
+  profiles: Profiles.find({}, { sort: { createdAt: -1 } }).fetch(),
+  incompleteCount: Profiles.find({ checked: { $ne: true } }).count(),
   currentUser: Meteor.user(),
   };
 })(App);

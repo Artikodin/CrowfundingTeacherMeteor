@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 
 import App from '../imports/ui/App.js';
 
-import '../imports/api/tasks.js';
+import '../imports/api/profiles.js';
 
 
 Meteor.startup(() => {
